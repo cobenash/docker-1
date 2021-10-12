@@ -18,9 +18,9 @@ services:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
     environment:
       # timezone inside container
-      - TZ
+      - TZ: ${TZ}
 
-      # necessay Postgres options/variables
+      # necessary Postgres options/variables
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
@@ -34,7 +34,7 @@ services:
     security_opt:
       - no-new-privileges:true
     pids_limit: 200
-    read_only: true
+    read_only: ${MATTERMOST_CONTAINER_READONLY}
     tmpfs:
       - /tmp
     volumes:
@@ -45,7 +45,7 @@ services:
       - ${MATTERMOST_CLIENT_PLUGINS_PATH}:/mattermost/client/plugins:rw
     environment:
       # timezone inside container
-      - TZ
+      - TZ: ${TZ}
 
       # necessary Mattermost options/variables (see env.example)
       - MM_SQLSETTINGS_DRIVERNAME
