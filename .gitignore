@@ -2,3 +2,4 @@ volumes
 data
 certs
 .env
+backup/*
