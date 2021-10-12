@@ -54,6 +54,33 @@ services:
       # additional settings
       - MM_SERVICESETTINGS_SITEURL
 
+  backup_postgres:
+    image: appleboy/docker-backup-database:postgres-12
+    logging:
+      options:
+        max-size: "100k"
+        max-file: "3"
+    environment:
+      STORAGE_DRIVER: s3
+      STORAGE_ENDPOINT: s3.amazonaws.com
+      STORAGE_BUCKET: hellosanta-mattermost
+      STORAGE_REGION: us-east-1
+      STORAGE_PATH: backup_mysql
+      STORAGE_SSL: "false"
+      STORAGE_INSECURE_SKIP_VERIFY: "false"
+      ACCESS_KEY_ID: ACCESS_KEY_ID
+      SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
+
+      DATABASE_DRIVER: postgres
+      DATABASE_HOST: postgres:5432
+      DATABASE_USERNAME: POSTGRES_USER
+      DATABASE_PASSWORD: POSTGRES_PASSWORD
+      DATABASE_NAME: POSTGRES_DB
+      DATABASE_OPTS:
+
+      TIME_SCHEDULE: "0 1 * * *"
+      TIME_LOCATION: Asia/Taipei
+
 # If you use rolling image tags and feel lucky watchtower can automatically pull new images and
 # instantiate containers from it. https://containrrr.dev/watchtower/
 # Please keep in mind watchtower will have access on the docker socket. This can be a security risk.
