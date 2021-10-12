@@ -55,7 +55,7 @@ services:
       - MM_SERVICESETTINGS_SITEURL
 
   backup_postgres:
-    image: appleboy/docker-backup-database:postgres-12
+    image: appleboy/docker-backup-database:postgres-13
     logging:
       options:
         max-size: "100k"
