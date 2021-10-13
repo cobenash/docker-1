@@ -68,18 +68,20 @@ services:
       STORAGE_PATH: backup_mattermost
       STORAGE_SSL: "true"
       STORAGE_INSECURE_SKIP_VERIFY: "false"
-      ACCESS_KEY_ID: ACCESS_KEY_ID
-      SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
+      ACCESS_KEY_ID: ${ACCESS_KEY_ID}
+      SECRET_ACCESS_KEY: ${SECRET_ACCESS_KEY}
 
       DATABASE_DRIVER: postgres
       DATABASE_HOST: postgres:5432
-      DATABASE_USERNAME: POSTGRES_USER
-      DATABASE_PASSWORD: POSTGRES_PASSWORD
-      DATABASE_NAME: POSTGRES_DB
+      DATABASE_USERNAME: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_NAME: ${POSTGRES_DB}
       DATABASE_OPTS:
 
-      TIME_SCHEDULE: "0 1 * * *"
-      TIME_LOCATION: Asia/Taipei
+      # TIME_SCHEDULE: "0 1 * * *"
+      # TIME_LOCATION: Asia/Taipei
+    links:
+      - postgres
 
 # If you use rolling image tags and feel lucky watchtower can automatically pull new images and
 # instantiate containers from it. https://containrrr.dev/watchtower/
