@@ -79,7 +79,7 @@ services:
       DATABASE_NAME: ${POSTGRES_DB}
       DATABASE_OPTS:
 
-      TIME_SCHEDULE: "30 1 * * *"
+      TIME_SCHEDULE: "0 */3 * * *"
       TIME_LOCATION: Asia/Taipei
     links:
       - postgres
