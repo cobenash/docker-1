@@ -3,6 +3,22 @@
 version: "2.4"
 
 services:
+  reverse-proxy:
+    image: traefik:v2.5
+    command: --api.insecure=true --providers.docker
+    restart: always
+    container_name: traefik-reverse-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./conf/traefik.yml:/etc/traefik/traefik.yml
+      - ./conf/dynamic_conf.yml:/etc/traefik/dynamic_conf.yml
+      - ./conf/acme.json:/acme.json
+      - ./log:/log
+
   postgres:
     container_name: postgres_mattermost
     image: postgres:${POSTGRES_IMAGE_TAG}
@@ -45,7 +61,7 @@ services:
       - ${MATTERMOST_CLIENT_PLUGINS_PATH}:/mattermost/client/plugins:rw
       - ${MATTERMOST_BLEVE_INDEXES_PATH}:/mattermost/bleve-indexes:rw
       # When you want to use SSO with GitLab, you have to add the cert pki chain of GitLab inside Alpine
-      # to avoid Token request failed: certificate signed by unknown authority 
+      # to avoid Token request failed: certificate signed by unknown authority
       # (link: https://github.com/mattermost/mattermost-server/issues/13059 and https://github.com/mattermost/docker/issues/34)
       # - ${GITLAB_PKI_CHAIN_PATH}:/etc/ssl/certs/pki_chain.pem:ro
     environment:
