@@ -42,7 +42,6 @@ entryPoints:
 certificatesResolvers:
   myresolver:
     acme:
-      email: victor.yang@hellosanta.com.tw
       storage: acme.json
       httpChallenge:
         # used during the challenge
