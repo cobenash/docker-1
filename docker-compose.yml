@@ -53,6 +53,20 @@ services:
     read_only: ${MATTERMOST_CONTAINER_READONLY}
     tmpfs:
       - /tmp
+    labels:
+      - traefik.http.middlewares.mattermost-redirect-to-websecure.redirectscheme.scheme=https
+      - traefik.http.middlewares.mattermost-security.headers.stsIncludeSubdomains=false
+      - traefik.http.middlewares.mattermost-security.headers.stsPreload=true
+      - traefik.http.middlewares.mattermost-security.headers.stsSeconds=31536000
+      - traefik.http.middlewares.mattermost-security.headers.forceSTSHeader=true
+      - traefik.http.middlewares.mattermost-secured.chain.middlewares=mattermost-redirect-to-websecure,mattermost-security
+      - traefik.http.routers.matteremost.middlewares=mattermost-secured
+      - traefik.http.routers.matteremost.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.matteremost.tls=true
+      - traefik.http.routers.matteremost.tls.options=default
+      - traefik.http.routers.matteremost.entrypoints=web, websecure
+      - traefik.http.services.matteremost.loadbalancer.server.port=8065
+      - traefik.http.routers.matteremost.tls.certresolver=myresolver
     volumes:
       - ${MATTERMOST_CONFIG_PATH}:/mattermost/config:rw
       - ${MATTERMOST_DATA_PATH}:/mattermost/data:rw
