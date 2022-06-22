@@ -20,7 +20,6 @@ services:
       - ./log:/log
 
   postgres:
-    container_name: postgres_mattermost
     image: postgres:${POSTGRES_IMAGE_TAG}
     restart: ${RESTART_POLICY}
     security_opt:
@@ -44,7 +43,6 @@ services:
   mattermost:
     depends_on:
       - postgres
-    container_name: mattermost
     image: mattermost/${MATTERMOST_IMAGE}:${MATTERMOST_IMAGE_TAG}
     restart: ${RESTART_POLICY}
     security_opt:
