@@ -90,6 +90,16 @@ services:
       # additional settings
       - MM_SERVICESETTINGS_SITEURL
 
+  chatbot:
+    image: ghcr.io/yguy/chatgpt-mattermost-bot:latest
+    restart: unless-stopped
+    depends_on:
+      - mattermost
+    environment:
+      MATTERMOST_URL: ${CHATGPT_MATTERMOST_URL}
+      MATTERMOST_TOKEN: ${CHATGPT_MATTERMOST_TOKEN}
+      OPENAI_API_KEY: ${CHATGPT_OPENAI_API_KEY}
+
   backup_postgres:
     image: appleboy/docker-backup-database:postgres-13
     logging:
