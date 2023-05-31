@@ -48,7 +48,7 @@ services:
     security_opt:
       - no-new-privileges:true
     pids_limit: 200
-    read_only: ${MATTERMOST_CONTAINER_READONLY}
+    read_only: false
     tmpfs:
       - /tmp
     labels:
@@ -89,6 +89,8 @@ services:
 
       # additional settings
       - MM_SERVICESETTINGS_SITEURL
+    ports:
+      - ${CALLS_PORT}:8443/udp
 
   backup_postgres:
     image: appleboy/docker-backup-database:postgres-13
